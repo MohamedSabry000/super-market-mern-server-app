@@ -1,18 +1,22 @@
-import mongoose from "mongoose";
-import Product from "../models/product.js"
+const mongoose = require('mongoose');
+const Product = require("../models/product");
+module.exports = {
+    getProduct: async (req, res) => {
+        console.log('getProduct');
+    },
+    createProduct: async (req, res) => {
+        console.log('createProduct');
+    }
+    , updateProduct: async (req, res) => {
+        console.log('updateProduct');
+    },
+    updateProduct: async (req, res) => {
+        console.log('updateProduct');
+    },
+    deleteProduct: async (req, res) => {
+        console.log('deleteProduct');
+    }
 
-export const getProduct = async (req, res) => {
-    console.log('getProduct');
+
 }
 
-export const createProduct = async (req,res)=>{
-    console.log('createProduct');
-}
-
-export const updateProduct = async (req,res)=>{
-    console.log('updateProduct');
-}
-
-export const deleteProduct = async (req,res)=>{
-    console.log('deleteProduct');
-}

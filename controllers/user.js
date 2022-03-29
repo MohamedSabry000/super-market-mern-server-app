@@ -1,18 +1,40 @@
-import mongoose from "mongoose";
-import Product from "../models/user.js"
+const User = require('../models/User');
+const { catchAsync } = require('../utils/utils');
 
-export const getUser = async (req, res) => {
-    console.log('getProduct');
-}
+module.exports = {
+    getAllUsers: catchAsync(async (req, res) => {
+        const users = await User.find();
+        res.json({
+            status: 'success',
+            data: users,
+        });
+    }),
+    createUser: catchAsync(async (req, res) => {
+        const { name, email, password } = req.body;
+        const user = await User.create({
+            name,
+            email,
+            password,
+        });
+        res.json({
+            status: 'success',
+            data: user,
+        });
+    }),
+    uploadAvatar: async (req, res) => {
+        const user = await User.findByIdAndUpdate(
+            req.userId,
+            { avatar: req.file.path },
+            { new: true }
+        );
+        res.json({ status: 'success', data: user });
+    },
+    updateUser: async (req, res) => {
+        console.log('updateProduct');
+    }
+    ,
+    deleteUser: async (req, res) => {
+        console.log('deleteProduct');
+    }
 
-export const createUser = async (req,res)=>{
-    console.log('createProduct');
-}
-
-export const updateUser = async (req,res)=>{
-    console.log('updateProduct');
-}
-
-export const deleteUser = async (req,res)=>{
-    console.log('deleteProduct');
-}
+};
