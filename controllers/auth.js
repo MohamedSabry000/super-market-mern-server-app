@@ -41,7 +41,7 @@ module.exports = {
     let token;
     token = jwt.sign(
       { userId: user.id, email: user.email },
-      'supersecret_dont_share',
+      process.env.JWT_SECRET,
       { expiresIn: '2d' }
     );
 
@@ -53,8 +53,9 @@ module.exports = {
   }),
   authenticated: (req, res, next) => {
     try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const token = req.headers.authorization.split(' '[1]);
+      console.log("token:: ", token[0]);
+      const decodedToken = jwt.verify(token[0], process.env.JWT_SECRET);
       const { id } = decodedToken;
       req.userId = id;
       return next();
