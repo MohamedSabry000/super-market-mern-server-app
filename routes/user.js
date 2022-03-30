@@ -1,5 +1,5 @@
 const express = require('express');
-const { authenticated } = require('../controllers/auth');
+const { authenticated, login, signup } = require('../controllers/auth');
 const {
     getAllUsers,
     createUser,
@@ -10,6 +10,8 @@ const {
 const router = express.Router();
 
 // http:://localhost:5000/posts
+router.get('/login', login);
+router.get('/signup', signup);
 router.get('/', authenticated, getAllUsers);
 
 router.post('/', createUser);

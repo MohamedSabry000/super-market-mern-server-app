@@ -7,7 +7,6 @@ const { catchAsync } = require('../utils/utils');
 module.exports = {
   login: async (req, res) => {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.json({
@@ -22,7 +21,36 @@ module.exports = {
 
     res.json({ status: 'success', token });
   },
-  signup: catchAsync(async (req, res) => { }),
+  signup: catchAsync(async (req, res) => {
+
+
+    const { name, email, password, avatar } = req.body;
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.json({
+        status: 'failure',
+        message: 'invalid email or password',
+      });
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+    });
+    let token;
+    token = jwt.sign(
+      { userId: user.id, email: user.email },
+      'supersecret_dont_share',
+      { expiresIn: '2d' }
+    );
+
+    res.json({
+      status: 'success',
+      data: user,
+      token: token
+    });
+  }),
   authenticated: (req, res, next) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
