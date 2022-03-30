@@ -37,6 +37,9 @@ module.exports = {
         });
     }),
     uploadAvatar: async (req, res) => {
+        console.log(">........", req.userId
+        );
+        console.log(">........", req.file.path);
         const user = await User.findByIdAndUpdate(
             req.userId,
             { avatar: req.file.path },

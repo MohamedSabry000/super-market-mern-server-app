@@ -1,4 +1,5 @@
 const express = require('express');
+const upload = require('../utils/file-storage');
 const { authenticated, login, signup } = require('../controllers/auth');
 const {
     getAllUsers,
@@ -14,6 +15,12 @@ const router = express.Router();
 // http:://localhost:5000/posts
 router.get('/login', login);
 router.get('/signup', signup);
+router.post(
+    '/avatar',
+    authenticated,
+    upload.single('avatar'),
+    uploadAvatar
+);
 router.get('/', authenticated, getAllUsers);
 router.post('/', createUser);
 router.use('/:id', authenticated, findUserByID);
