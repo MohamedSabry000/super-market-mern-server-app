@@ -14,7 +14,7 @@ const router = express.Router();
 
 // http:://localhost:5000/posts
 router.get('/login', login);
-router.get('/signup', signup);
+router.post('/signup', signup);
 router.post(
     '/avatar',
     authenticated,
