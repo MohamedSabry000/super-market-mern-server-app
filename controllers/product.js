@@ -1,7 +1,7 @@
 const Product = require("../models/Product");
 const { catchAsync } = require("../utils/utils");
 module.exports = {
-  getAllProduct: catchAsync(async (req, res) => {
+  getAllProducts: catchAsync(async (req, res) => {
     const products = await User.find();
     res.json({
       status: "success",
@@ -11,8 +11,8 @@ module.exports = {
   createProduct: async (req, res) => {
     console.log("createProduct");
   },
-  updateProduct: async (req, res) => {
-    console.log("updateProduct");
+  getProduct: async (req, res) => {
+    console.log("get a product");
   },
   updateProduct: async (req, res) => {
     console.log("updateProduct");
