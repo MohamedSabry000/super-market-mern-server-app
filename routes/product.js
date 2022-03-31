@@ -17,10 +17,10 @@ const router = express.Router();
 
 router.use("/:id", findProductByID);
 router.post("/", createProduct);
-router.post("/:id", upload.single("avatar"), uploadAvatar);
+router.patch("/:id", upload.single("avatar"), uploadAvatar);
 router.get("/", getAllProduct);
 router.get("/:id", getProductById);
-router.patch("/:id", updateProduct);
+router.post("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
 
 module.exports = router;

@@ -47,22 +47,23 @@ module.exports = {
       price,
       owner,
       tag,
+      avatar,
     });
     res.json({ status: "success", data: product });
   }),
-  uploadAvatar: async (req, res) => {
+  uploadAvatar: catchAsync(async (req, res) => {
     const product = await Product.findByIdAndUpdate(
       req.productId,
       { avatar: req.file.path },
       { new: true }
     );
     res.json({ status: "success", data: product });
-  },
+  }),
 
-  updateProduct: catchAsync(async (req, res, next) => {
+  updateProduct: catchAsync(async (req, res) => {
     const { id } = req.params;
     req.productId = id;
-    const product = await Product.findByIdAndUpdate(id, req.body, {
+    const product = await Product.findByIdAndUpdate(req.productId, req.body, {
       new: true,
     });
     res.json({
@@ -71,9 +72,9 @@ module.exports = {
     });
   }),
 
-  deleteProduct: async (req, res) => {
+  deleteProduct: catchAsync(async (req, res) => {
     const { id } = req.params;
     await Product.findByIdAndDelete(id);
     res.status(404).json();
-  },
+  }),
 };
