@@ -2,13 +2,25 @@ const Product = require("../models/Product");
 const { catchAsync } = require("../utils/utils");
 
 module.exports = {
+  findProductByID: catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (product === null) {
+      return next({ status: "failure", message: "product not found" });
+    }
+    req.product = product;
+    next();
+  }),
+  getProductById: catchAsync(async (req, res) => {
+    res.json({
+      status: "success",
+      data: req.product,
+    });
+  }),
   getAllProduct: catchAsync(async (req, res) => {
     let query = JSON.stringify(req.query);
     query = query.replace(/(gt|gte|lt|lte)/, (match) => `$${match}`);
     let products = Product.find(JSON.parse(query));
-    console.log(req.query.price);
-    console.log(query);
-    console.log(products);
 
     if (req.query.page !== undefined) {
       const limit = req.query.limit;
@@ -17,7 +29,7 @@ module.exports = {
     }
     if (req.query.sort != undefined && req.query.orderby != undefined) {
       const sortObject = {};
-      sortObject[req.querysort] = req.query.orderby === "asc" ? 1 : -1;
+      sortObject[req.query.sort] = req.query.orderby === "asc" ? 1 : -1;
       products.sort(sortObject);
     }
     res.json({
@@ -33,7 +45,6 @@ module.exports = {
       description,
       price,
       owner,
-      avatar,
       tag,
     });
     res.json({
@@ -43,7 +54,7 @@ module.exports = {
   }),
   uploadAvatar: async (req, res) => {
     const product = await Product.findByIdAndUpdate(
-      req.product,
+      req.product.id,
       { avatar: req.file.path },
       { new: true }
     );
