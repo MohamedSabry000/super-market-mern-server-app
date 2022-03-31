@@ -22,7 +22,7 @@ const userSchema = new Schema(
             required: true,
             min: 6,
         },
-        avatar: String,
+        avatar: String
     },
     {
         timestamps: true,

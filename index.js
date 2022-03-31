@@ -10,9 +10,6 @@ const productRoutes = require('./routes/product')
 const app = express();
 dotenv.config();
 
-// app.use(express.urlencoded({extended: true})); 
-// app.use(express.limit('30M'));
-
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
