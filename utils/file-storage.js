@@ -1,12 +1,12 @@
 const multer = require('multer')
 console.log("gggg");
 const storage = multer.diskStorage({
-    destination: (req, res, cb) => {
-        cb(null, "./public/storage")
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`)
-    }
+  destination: (req, res, cb) => {
+    cb(null, "./public/storage")
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
 })
 
 const upload = multer({ storage })
