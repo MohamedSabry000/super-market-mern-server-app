@@ -32,7 +32,7 @@ module.exports = {
       });
     }
 
-    const user = await User.create({ name, email, password, });
+    const user = await User.create({ name, email, password });
     let token;
     token = jwt.sign(
       { userId: user.id, email: user.email },
