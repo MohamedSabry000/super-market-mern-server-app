@@ -1,5 +1,6 @@
 const express = require("express");
 const upload = require("../utils/file-storage");
+const { authenticated } = require("../controllers/auth");
 const {
   getAllProduct,
   createProduct,
@@ -15,7 +16,7 @@ const router = express.Router();
 // http:://localhost:5000/posts
 
 router.use("/:id", findProductByID);
-router.post("/avatar", upload.single("avatar"), uploadAvatar);
+router.post("/avatar", authenticated, upload.single("avatar"), uploadAvatar);
 router.get("/", getAllProduct);
 router.get("/:id", getProductById);
 router.post("/", createProduct);
