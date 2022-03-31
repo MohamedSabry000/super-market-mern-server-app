@@ -4,6 +4,7 @@ const { catchAsync } = require("../utils/utils");
 module.exports = {
   findProductByID: catchAsync(async (req, res, next) => {
     const { id } = req.params;
+    req.productId = id;
     const product = await Product.findById(id);
     if (product === null) {
       return next({ status: "failure", message: "product not found" });
@@ -38,7 +39,7 @@ module.exports = {
     });
   }),
 
-  createProduct: catchAsync(async (req, res) => {
+  createProduct: catchAsync(async (req, res, next) => {
     const { title, description, price, owner, avatar, tag } = req.body;
     const product = await Product.create({
       title,
@@ -47,26 +48,23 @@ module.exports = {
       owner,
       tag,
     });
-    res.json({
-      status: "success",
-      data: product,
-    });
+    res.json({ status: "success", data: product });
   }),
   uploadAvatar: async (req, res) => {
     const product = await Product.findByIdAndUpdate(
-      req.product.id,
+      req.productId,
       { avatar: req.file.path },
       { new: true }
     );
     res.json({ status: "success", data: product });
   },
 
-  updateProduct: catchAsync(async (req, res) => {
+  updateProduct: catchAsync(async (req, res, next) => {
     const { id } = req.params;
+    req.productId = id;
     const product = await Product.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-
     res.json({
       status: "success",
       data: product,
