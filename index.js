@@ -23,10 +23,23 @@ app.use('/api/v1/product', productRoutes);
 
 // const CONNECTION_URL = "mongodb+srv://123:1234@cluster0.esv2k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
-    .catch((error) => console.log(error));
+const { HOST, CONNECTION_URL, PORT } = process.env;
+// mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+//     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+//     .catch((error) => console.log(error));
 
+
+mongoose
+    .connect(CONNECTION_URL)
+    .then(() => {
+        console.log('DB connected');
+    })
+    .catch((err) => {
+        console.error('connection failed =>', err);
+    });
+
+app.listen(PORT, HOST, () => {
+    console.log('server is running');
+});
 // mongoose.set('useUnifiedTopology', false);
