@@ -5,7 +5,6 @@ module.exports = {
   findProductByID: catchAsync(async (req, res, next) => {
     const { id } = req.params;
     req.productId = id;
-    console.log("find product by ID ", id);
     const product = await Product.findById(id);
     if (product === null) {
       return next({ status: "failure", message: "product not found" });
@@ -52,7 +51,7 @@ module.exports = {
     });
   }),
 
-  createProduct: catchAsync(async (req, res) => {
+  createProduct: catchAsync(async (req, res, next) => {
     const { title, description, price, owner, avatar, tag } = req.body;
     const product = await Product.create({
       title,
@@ -60,41 +59,34 @@ module.exports = {
       price,
       owner,
       tag,
+      avatar,
     });
-    const { id } = req.params;
-    req.productId = id;
-    res.json({
-      status: "success",
-      data: product,
-    });
+    res.json({ status: "success", data: product });
   }),
-  uploadAvatar: async (req, res) => {
-    console.log("Updaating...Avatar....", req.productId);
+  uploadAvatar: catchAsync(async (req, res) => {
     const product = await Product.findByIdAndUpdate(
       req.productId,
       { avatar: req.file.path },
       { new: true }
     );
     res.json({ status: "success", data: product });
-  },
-
-  updateProduct: catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    req.productId = id;
-    console.log("Updaating...");
-    const product = await Product.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    next();
-    // res.json({
-    //   status: "success",
-    //   data: product,
-    // });
   }),
 
-  deleteProduct: async (req, res) => {
+  updateProduct: catchAsync(async (req, res) => {
+    const { id } = req.params;
+    req.productId = id;
+    const product = await Product.findByIdAndUpdate(req.productId, req.body, {
+      new: true,
+    });
+    res.json({
+      status: "success",
+      data: product,
+    });
+  }),
+
+  deleteProduct: catchAsync(async (req, res) => {
     const { id } = req.params;
     await Product.findByIdAndDelete(id);
     res.status(404).json();
-  },
+  }),
 };

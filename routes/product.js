@@ -1,5 +1,6 @@
 const express = require("express");
 const upload = require("../utils/file-storage");
+const { authenticated } = require("../controllers/auth");
 const {
   getAllProduct,
   createProduct,
@@ -16,13 +17,12 @@ const router = express.Router();
 // http:://localhost:5000/posts
 router.get("/userproducts/:id", getUserProducts);
 router.use("/:id", findProductByID);
-router.post("/:id", upload.single("avatar"), updateProduct, uploadAvatar);
+router.patch("/:id", upload.single("avatar"), uploadAvatar);
+
+router.post("/", createProduct);
 router.get("/", getAllProduct);
 router.get("/:id", getProductById);
-router.post("/", createProduct);
-// router.patch("/:id", uploadAvatar);
-router.patch("/:id", updateProduct);
+router.post("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
-// router.patch('/:id/likePost', likePost);
 
 module.exports = router;

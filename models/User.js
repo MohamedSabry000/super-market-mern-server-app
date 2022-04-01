@@ -22,6 +22,8 @@ const userSchema = new Schema(
             required: true,
             min: 6,
         },
+        address: String,
+        phone: String,
         avatar: String
     },
     {

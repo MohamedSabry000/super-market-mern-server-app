@@ -25,6 +25,15 @@ module.exports = {
             data: users,
         });
     }),
+    getMyData: catchAsync(async (req, res) => {
+        console.log(req);
+        const user = await User.findById(req.userId);
+        console.log(user);
+        res.json({
+            status: 'success',
+            data: user,
+        });
+    }),
     getUser: async (req, res) => {
         res.json({
             status: 'success',
@@ -58,7 +67,6 @@ module.exports = {
             const user = await User.findByIdAndUpdate(id, req.body, {
                 new: true,
             });
-
             res.json({
                 status: 'success',
                 data: user

@@ -9,9 +9,10 @@ const {
     getUser,
     findUserByID,
     uploadAvatar,
+    getMyData
 } = require('../controllers/user')
 const router = express.Router();
-router.get('/login', login);
+router.post ('/login', login);
 router.post('/signup', signup);
 router.post(
     '/avatar',
@@ -19,7 +20,8 @@ router.post(
     upload.single('avatar'),
     uploadAvatar
 );
-router.get('/', authenticated, getAllUsers);
+// router.get('/', authenticated, getAllUsers);
+router.get('/', authenticated, getMyData);
 router.post('/', createUser);
 router.use('/:id', authenticated, findUserByID);
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
