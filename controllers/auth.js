@@ -6,7 +6,7 @@ const { catchAsync } = require("../utils/utils");
 
 module.exports = {
   login: async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = JSON.parse(req.body.body);
     const user = await User.findOne({ email });
     console.log(user);
     if (!user || !(await bcrypt.compare(password, user.password))) {

@@ -16,8 +16,9 @@ const router = express.Router();
 // http:://localhost:5000/posts
 
 router.use("/:id", findProductByID);
-router.post("/", createProduct);
 router.patch("/:id", upload.single("avatar"), uploadAvatar);
+
+router.post("/", createProduct);
 router.get("/", getAllProduct);
 router.get("/:id", getProductById);
 router.post("/:id", updateProduct);
