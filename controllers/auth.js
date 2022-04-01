@@ -51,9 +51,9 @@ module.exports = {
   authenticated: (req, res, next) => {
     try {
 
-      const token = req.headers.authorization.split(" ")[1];
-      console.log("token:: ", token);
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const token = req.headers.authorization.split(" "[1]);
+      console.log("token:: ", token[0]);
+      const decodedToken = jwt.verify(token[0], process.env.JWT_SECRET);
       const { id } = decodedToken;
       console.log(id);
       req.userId = id;
