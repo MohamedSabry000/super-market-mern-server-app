@@ -19,6 +19,18 @@ module.exports = {
       data: req.product,
     });
   }),
+  getUserProducts: catchAsync(async (req, res) => {
+    const email = req.params.id;
+    req.userEmail = email;
+    console.log("email ::: ", email, " params ", req.params);
+    const products = await Product.find({ 'owner': email });
+    console.log(products);
+    res.json({
+      status: "success",
+      data: products,
+    });
+  }),
+
   getAllProduct: catchAsync(async (req, res) => {
     let query = JSON.stringify(req.query);
     query = query.replace(/(gt|gte|lt|lte)/, (match) => `$${match}`);
