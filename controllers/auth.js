@@ -25,7 +25,8 @@ module.exports = {
     res.json({ status: "success", token });
   },
   signup: catchAsync(async (req, res) => {
-    const { name, email, password, avatar } = req.body;
+    const { name, email, password, address,
+      phone, avatar } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({
@@ -34,7 +35,7 @@ module.exports = {
       });
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email, password, address, phone });
     let token;
     token = jwt.sign(
       { userId: user.id, email: user.email },
@@ -54,9 +55,11 @@ module.exports = {
       const token = req.headers.authorization.split(" "[1]);
       console.log("token:: ", token[0]);
       const decodedToken = jwt.verify(token[0], process.env.JWT_SECRET);
-      const { id } = decodedToken;
-      console.log(id);
-      req.userId = id;
+      console.log("decodedToken ", decodedToken);
+      const { userId } = decodedToken;
+      console.log(userId);
+
+      req.userId = userId;
       return next();
     } catch (err) {
       res.json({

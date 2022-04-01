@@ -26,7 +26,7 @@ module.exports = {
         });
     }),
     getMyData: catchAsync(async (req, res) => {
-        console.log(req);
+        console.log("userId: ", req.userId);
         const user = await User.findById(req.userId);
         console.log(user);
         res.json({
@@ -42,6 +42,7 @@ module.exports = {
     },
     createUser: catchAsync(async (req, res) => {
         const { name, email, password, address, phone } = req.body;
+        console.log(address, "  phone :", phone);
         const user = await User.create({
             name,
             email,
