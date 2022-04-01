@@ -9,12 +9,13 @@ const {
   uploadAvatar,
   getProductById,
   findProductByID,
+  getUserProducts
 } = require("../controllers/product");
 
 const router = express.Router();
 
 // http:://localhost:5000/posts
-
+router.get("/userproducts/:id", getUserProducts);
 router.use("/:id", findProductByID);
 router.patch("/:id", upload.single("avatar"), uploadAvatar);
 
