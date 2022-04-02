@@ -54,7 +54,7 @@ module.exports = {
   authenticated: (req, res, next) => {
     try {
 console.log("Authenticated");
-
+// console.log(req);
       const token = req.headers.authorization? req.headers.authorization.split(" ")[1] : req.body.headers.authorization.split(" ")[1];
       console.log("token:: ", token);
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);

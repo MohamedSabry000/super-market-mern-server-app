@@ -74,11 +74,11 @@ module.exports = {
         });
     }),
     uploadAvatar: async (req, res) => {
-console.log("Upload Avatar");
-console.log(req.body);
+        console.log("Upload Avatar");
+        console.log(req.body);
         const user = await User.findByIdAndUpdate(
             req.id,
-            { avatar: req.body.file.path },
+            { avatar: `http://localhost:5000/static/storage/${req.body.file? req.body.file.path : "default-user.webp"}` },
             { new: true }
         );
         res.json({ status: 'success', data: user });
