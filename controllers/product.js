@@ -77,7 +77,8 @@ module.exports = {
   updateProduct: catchAsync(async (req, res) => {
     const { id } = req.params;
     req.productId = id;
-    const product = await Product.findByIdAndUpdate(req.productId, req.body, {
+    console.log(req.body.body);
+    const product = await Product.findByIdAndUpdate(req.productId, JSON.parse(req.body.body), {
       new: true,
     });
     res.json({
