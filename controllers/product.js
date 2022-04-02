@@ -68,7 +68,7 @@ module.exports = {
   uploadAvatar: catchAsync(async (req, res) => {
     const product = await Product.findByIdAndUpdate(
       req.productId,
-      { avatar: req.file.path },
+      { avatar: `http://localhost:5000/static/storage/${req.body.file? req.body.file.path : "default-product.png"}` },
       { new: true }
     );
     res.json({ status: "success", data: product });

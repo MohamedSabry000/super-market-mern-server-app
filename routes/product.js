@@ -22,7 +22,7 @@ router.post("/", authenticated, createProduct);
 router.get("/", getAllProduct);
 
 router.use("/:id", findProductByID);
-router.patch("/:id", upload.single("avatar"), uploadAvatar);
+router.patch("/:id", authenticated, upload.single("avatar"), uploadAvatar);
 router.get("/:id", getProductById);
 router.post("/:id",authenticated, updateProduct);
 router.delete("/:id", authenticated, deleteProduct);
