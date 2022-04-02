@@ -15,14 +15,16 @@ const {
 const router = express.Router();
 
 // http:://localhost:5000/posts
-router.get("/userproducts/:id", getUserProducts);
+router.post("/userproducts", authenticated, getUserProducts);
+
+
+router.post("/", authenticated, createProduct);
+router.get("/", getAllProduct);
+
 router.use("/:id", findProductByID);
 router.patch("/:id", upload.single("avatar"), uploadAvatar);
-
-router.post("/", createProduct);
-router.get("/", getAllProduct);
 router.get("/:id", getProductById);
-router.post("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+router.post("/:id",authenticated, updateProduct);
+router.delete("/:id", authenticated, deleteProduct);
 
 module.exports = router;

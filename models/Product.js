@@ -4,7 +4,7 @@ const productSchema = mongoose.Schema(
     title: {
       type: String,
       required: [true, "Product title is required"],
-      unique: [true, "Product title is duplicate"],
+      // unique: [true, "Product title is duplicate"],
     },
     description: {
       type: String,
@@ -20,7 +20,7 @@ const productSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
-      require: true,
+      // require: true,
     },
     tag: {
       type: String,

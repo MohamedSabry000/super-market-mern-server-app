@@ -19,10 +19,9 @@ module.exports = {
     });
   }),
   getUserProducts: catchAsync(async (req, res) => {
-    const email = req.params.id;
-    req.userEmail = email;
-    console.log("email ::: ", email, " params ", req.params);
-    const products = await Product.find({ 'owner': email });
+    const ownerId = req.id;
+    console.log("ownerId ::: ", ownerId);
+    const products = await Product.find({ 'owner': ownerId });
     console.log(products);
     res.json({
       status: "success",
@@ -52,14 +51,17 @@ module.exports = {
   }),
 
   createProduct: catchAsync(async (req, res, next) => {
-    const { title, description, price, owner, avatar, tag } = req.body;
+    console.log("create Product");
+    console.log(req.body);
+    const { title, description, price, tag, /*avatar*/ } = JSON.parse( req.body.body );
+    const owner = req.id;
     const product = await Product.create({
       title,
       description,
       price,
       owner,
       tag,
-      avatar,
+      avatar: "http://localhost:5000/static/storage/default-product.png" ,
     });
     res.json({ status: "success", data: product });
   }),
@@ -87,6 +89,8 @@ module.exports = {
   deleteProduct: catchAsync(async (req, res) => {
     const { id } = req.params;
     await Product.findByIdAndDelete(id);
-    res.status(404).json();
+    res.json({
+      status: "success",
+    });
   }),
 };

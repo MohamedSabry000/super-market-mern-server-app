@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require("dotenv");
+const path = require('path');
+
+
 
 const userRoutes = require('./routes/user')
 const productRoutes = require('./routes/product')
@@ -14,6 +17,10 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 app.use(cors());
+
+app.use('/', express.static('/public'))
+app.use('/static', express.static(path.join(__dirname, 'public')))
+
 
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/product', productRoutes);

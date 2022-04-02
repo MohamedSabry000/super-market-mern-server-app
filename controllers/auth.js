@@ -6,6 +6,7 @@ const { catchAsync } = require("../utils/utils");
 
 module.exports = {
   login: async (req, res) => {
+    console.log("Sign In");
     console.log(req.body);
     const { email, password } = JSON.parse(req.body.body);
     console.log(email, password);
@@ -25,7 +26,9 @@ module.exports = {
     res.json({ status: "success", token });
   },
   signup: catchAsync(async (req, res) => {
-    const { name, email, password, avatar } = req.body;
+    console.log("Sign Up");
+    // console.log(req.body);
+    const { name, email, password, address, phone, avatar } = JSON.parse(req.body.body);
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({
@@ -34,10 +37,10 @@ module.exports = {
       });
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email, password, address, phone });
     let token;
     token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "2d" }
     );
@@ -50,13 +53,14 @@ module.exports = {
   }),
   authenticated: (req, res, next) => {
     try {
+console.log("Authenticated");
 
-      const token = req.headers.authorization.split(" ")[1];
+      const token = req.headers.authorization? req.headers.authorization.split(" ")[1] : req.body.headers.authorization.split(" ")[1];
       console.log("token:: ", token);
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       const { id } = decodedToken;
       console.log(id);
-      req.userId = id;
+      req.id = id;
       return next();
     } catch (err) {
       res.json({

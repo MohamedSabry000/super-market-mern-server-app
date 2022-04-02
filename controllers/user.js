@@ -18,6 +18,24 @@ module.exports = {
         }
 
     }),
+    getUserName: catchAsync(async (req, res) => {
+        console.log("here");
+        const { id } = req.params;
+        try {
+            const user = await User.findById(id);
+            res.json({
+                status: 'success',
+                data: user,
+            })
+        }
+        catch {
+            res.json({
+                status: 'Faluier',
+                message: 'User not found',
+            })
+
+        }
+    }),
     getAllUsers: catchAsync(async (req, res) => {
         const users = await User.find();
         res.json({
@@ -26,8 +44,9 @@ module.exports = {
         });
     }),
     getMyData: catchAsync(async (req, res) => {
-        console.log(req);
-        const user = await User.findById(req.userId);
+        console.log("GetMyData");
+        //  console.log(req);
+        const user = await User.findById(req.id);
         console.log(user);
         res.json({
             status: 'success',
@@ -41,6 +60,8 @@ module.exports = {
         });
     },
     createUser: catchAsync(async (req, res) => {
+        console.log("Create User");
+        console.log(req.body);
         const { name, email, password } = req.body;
         const user = await User.create({
             name,
@@ -53,18 +74,21 @@ module.exports = {
         });
     }),
     uploadAvatar: async (req, res) => {
-
+console.log("Upload Avatar");
+console.log(req.body);
         const user = await User.findByIdAndUpdate(
-            req.userId,
-            { avatar: req.file.path },
+            req.id,
+            { avatar: req.body.file.path },
             { new: true }
         );
         res.json({ status: 'success', data: user });
     },
     updateUser: async (req, res) => {
+        console.log("update User");
+        console.log(req.body);
         const { id } = req.params;
         try {
-            const user = await User.findByIdAndUpdate(id, req.body, {
+            const user = await User.findByIdAndUpdate(id, req.body.body, {
                 new: true,
             });
             res.json({
