@@ -9,6 +9,8 @@ const {
   uploadAvatar,
   getProductById,
   findProductByID,
+  getProductsByCategory,
+  getOwnedProductsByCategory,
   getUserProducts
 } = require("../controllers/product");
 
@@ -20,6 +22,9 @@ router.post("/userproducts", authenticated, getUserProducts);
 
 router.post("/", authenticated, createProduct);
 router.get("/", getAllProduct);
+
+router.get("/find", getProductsByCategory);
+router.get("/findByUser", authenticated, getOwnedProductsByCategory);
 
 router.use("/:id", findProductByID);
 router.patch("/:id", authenticated, upload.single("avatar"), uploadAvatar);

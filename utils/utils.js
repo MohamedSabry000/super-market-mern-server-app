@@ -3,6 +3,7 @@ module.exports = {
     try {
       await fn(req, res, next);
     } catch (error) {
+      console.log("Error ::: ",error);
       next(error);
     }
   },

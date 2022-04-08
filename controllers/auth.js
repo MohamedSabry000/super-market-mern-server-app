@@ -28,7 +28,7 @@ module.exports = {
   signup: catchAsync(async (req, res) => {
     console.log("Sign Up");
     // console.log(req.body);
-    const { name, email, password, address, phone, avatar } = JSON.parse(req.body.body);
+    let { name, email, password, address, phone, avatar } = JSON.parse(req.body.body);
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({
@@ -37,7 +37,11 @@ module.exports = {
       });
     }
 
-    const user = await User.create({ name, email, password, address, phone });
+    if(avatar === undefined){
+      avatar = "http://localhost:5000/static/storage/default-user.webp";
+    }
+
+    const user = await User.create({ name, email, password, address, phone, avatar });
     let token;
     token = jwt.sign(
       { id: user.id, email: user.email },
@@ -53,8 +57,8 @@ module.exports = {
   }),
   authenticated: (req, res, next) => {
     try {
-console.log("Authenticated");
-// console.log(req);
+      console.log("Authenticated");
+      // console.log(req);
       const token = req.headers.authorization? req.headers.authorization.split(" ")[1] : req.body.headers.authorization.split(" ")[1];
       console.log("token:: ", token);
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
